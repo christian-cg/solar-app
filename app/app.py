@@ -11,7 +11,7 @@ st.text("""Upload an image to evaluate the condition of solar panels.""")
 uploaded_file = st.file_uploader("Upload an image file:", type=["jpeg", "jpg", "png"])
 
 if uploaded_file is not None:
-    bytes_data = uploaded_file.read()
+    bytes_data = uploaded_file.getvalue()
     st.image(bytes_data)
     st.write(bytes_data)
 
@@ -22,8 +22,8 @@ if uploaded_file is not None:
         result = response.json()
         st.success("Images uploeaded succesfully!")
         st.write("API response: ", result)
-    else:
-        st.error("Images upload failed.")
+    # else:
+    #     st.error("Images upload failed.")
 
 # Evaluate images and retrieve the model's classification results
 # if st.button("Evaluate"):
