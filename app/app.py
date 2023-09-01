@@ -3,7 +3,7 @@ import requests
 import ipdb
 
 #url = st.secrets['url']
-url = ''
+url = 'http://localhost:8000/predict'
 
 st.header("Solar panel condition classifier")
 st.text("""Upload an image to evaluate the condition of solar panels.""")
@@ -20,7 +20,7 @@ if st.button("Evaluate images"):
         for uploaded_file in uploaded_files:
             bytes_data = uploaded_file.getvalue()
 
-            files = {uploaded_file.name: (bytes_data)}
+            files = {"image": (bytes_data)}
 
             response = requests.post(url, files=files)
 
@@ -37,13 +37,13 @@ if st.button("Evaluate images"):
     else:
         st.warning("You need to upload an image to be evaluated.")
 
-breakpoint()
+#breakpoint()
 
-response = requests.post(url, files={"image": ("image.jpg", bytes_data, "image/jpeg")})
+# response = requests.post(url, files={"image": ("image.jpg", bytes_data, "image/jpeg")})
 
-if uploaded_files is not None:
-    files = {uploaded_file.name: (bytes_data)}
+# if uploaded_files is not None:
+#     files = {uploaded_file.name: (bytes_data)}
 
-    st.image(bytes_data)
-    st.write(uploaded_file.name)
-    #st.write(bytes_data)
+#     st.image(bytes_data)
+#     st.write(uploaded_file.name)
+#     #st.write(bytes_data)
