@@ -4,7 +4,8 @@ import requests
 import ipdb
 
 #url = st.secrets['url']
-url = 'http://localhost:8000/predict'
+#url = 'http://localhost:8000/predict'
+url = 'https://solarpanelstatus-z7imutgpsq-ew.a.run.app/predict'
 
 st.header("Solar panel condition classifier")
 st.text("""Upload an image to evaluate the condition of solar panels.""")
@@ -25,13 +26,10 @@ if st.button("Evaluate images"):
 
             response = requests.post(url, files=files)
 
-            st.write("API response status code: ", response.status_code)
-
             if response.status_code == 200:
-                st.success("Image uploaded succesfully!")
-                result = response.json()
-                st.write(f"API response: {uploaded_file.name} is {result}")
-                st.write("Image:")
+                st.success(f"'*{uploaded_file.name}*' uploaded succesfully!")
+                result = response.json()['predition'] # Careful, this typo is in the API deployed to the cloud. But fixed and merged on GH repo.
+                st.markdown(f"The image was classified as **{result}**.")
                 st.image(bytes_data)
             else:
                 st.error(f"Error uploading the image: {uploaded_file.name}")
