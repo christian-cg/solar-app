@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 import requests
 import ipdb
 
@@ -8,7 +9,7 @@ url = 'http://localhost:8000/predict'
 st.header("Solar panel condition classifier")
 st.text("""Upload an image to evaluate the condition of solar panels.""")
 
-# Allow users to upload images
+# Allow users to upload images for evaluation
 uploaded_files = st.file_uploader("Upload an image file:",
                                  type=['jpeg', 'jpg', 'png'],
                                  accept_multiple_files=True)
@@ -37,13 +38,12 @@ if st.button("Evaluate images"):
     else:
         st.warning("You need to upload an image to be evaluated.")
 
-#breakpoint()
+
+### Single image upload ###
 
 # response = requests.post(url, files={"image": ("image.jpg", bytes_data, "image/jpeg")})
 
 # if uploaded_files is not None:
 #     files = {uploaded_file.name: (bytes_data)}
-
 #     st.image(bytes_data)
-#     st.write(uploaded_file.name)
-#     #st.write(bytes_data)
+#     st.write(bytes_data)
