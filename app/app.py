@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import requests
+import time
 import ipdb
 
 # Page config
@@ -37,8 +38,7 @@ header_html = """
 st.markdown(header_html, unsafe_allow_html=True)
 
 # Streamlit app
-#url = st.secrets['url']
-url = 'https://solarpanelstatus-z7imutgpsq-ew.a.run.app/predict'
+url = st.secrets['url']
 
 st.header("Solar panel condition classifier")
 
@@ -61,13 +61,17 @@ if st.button("Evaluate images", type='primary'):
         with col_header_2:
             st.markdown('**Class**')
 
+        # with st.spinner('Wait for it...'):
+        #     time.sleep(8)
+        # st.success('Done!')
+
         # Fetch the model's classification results
         for uploaded_file in uploaded_files:
             bytes_data = uploaded_file.getvalue()
             files = {"image": (bytes_data)}
             response = requests.post(url, files=files)
             if response.status_code == 200:
-                result = response.json()['predition'] # Warning: this typo is in the API deployed to the cloud. But fixed and merged on GH repo.
+                result = response.json()['prediction']
                 col1, col2, col3 = st.columns(3)
                 with col1:
                     st.image(bytes_data, caption=uploaded_file.name, width=256)
