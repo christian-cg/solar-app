@@ -40,7 +40,7 @@ st.markdown(header_html, unsafe_allow_html=True)
 # Streamlit app
 url = st.secrets['url']
 
-st.header("Solar panel condition classifier")
+st.header("Solar damage detector")
 
 st.markdown("""
             Evaluate if a solar panel is **clean**, **damaged** or **dirty**
@@ -55,15 +55,15 @@ uploaded_files = st.file_uploader("Upload images:",
 if st.button("Evaluate images", type='primary'):
     # Check if any files where uploaded
     if uploaded_files:
+        # with st.spinner('Evaluating images'):
+        #     time.sleep(4)
+        # st.success('Images uploaded successfully!')
+
         col_header_1, col_header_2, col_header_3 = st.columns(3)
         with col_header_1:
             st.markdown('**Image**')
         with col_header_2:
             st.markdown('**Class**')
-
-        # with st.spinner('Wait for it...'):
-        #     time.sleep(8)
-        # st.success('Done!')
 
         # Fetch the model's classification results
         for uploaded_file in uploaded_files:
@@ -74,10 +74,10 @@ if st.button("Evaluate images", type='primary'):
                 result = response.json()['prediction']
                 col1, col2, col3 = st.columns(3)
                 with col1:
-                    st.image(bytes_data, caption=uploaded_file.name, width=256)
+                    st.image(bytes_data, caption=uploaded_file.name, width=300)
                 with col2:
-                    st.markdown(f"The image was classified as **{result}**.")
+                    st.markdown(f"This panel is **{result}**")
             else:
                 st.error(f"Error uploading the image: {uploaded_file.name}")
     else:
-        st.warning("You need to upload an image to be evaluated.")
+        st.warning("Please upload an image to be evaluated.")
